@@ -67,4 +67,8 @@
   &:hover {
     cursor: pointer;
   }
+
+  &:active {
+    transform: translateY(4px);
+  }
 }

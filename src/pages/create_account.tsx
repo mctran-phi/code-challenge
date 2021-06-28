@@ -1,34 +1,35 @@
 import Head from 'next/head';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, SyntheticEvent } from 'react';
 import styles from 'src/styles/create_account.module.scss';
 import Image from 'next/image';
 import wealthfront from '../images/wealthfront.svg';
 
+interface Account {
+  username: string,
+  password1: string,
+  password2: string
+};
+
 export default function CreateAccount() {
-  const [username, setUsername] = useState('');
-  const [firstPassword, setFirstPassword] = useState('');
-  const [SecondPassword, setSecondPassword] = useState('');
+  const [account, setAccount] = useState<Account>({
+    username: '',
+    password1: '',
+    password2: ''
+  });
 
   async function handleSubmit(evt: FormEvent) {
     evt.preventDefault();
     const response = await fetch('/api/create_new_account', {
       method: 'POST',
-      body: JSON.stringify({}),
+      body: JSON.stringify(account),
     });
 
     console.log(await response.json());
   };
 
-  var handleUsername = user => {
-    setUsername(user);
-  };
-
-  var handleFirstPassword = pass => {
-    setFirstPassword(pass);
-  };
-
-  var handleSecondPassword = pass => {
-    setSecondPassword(pass);
+  function handleAccount(e: SyntheticEvent) {
+    const { name, value } = e.target;
+    setAccount({...account, name: value});
   };
 
   return (
@@ -50,7 +51,8 @@ export default function CreateAccount() {
             <input
               className={styles.input}
               type='input'
-              onChange={e => handleUsername(e.target.value)}
+              name='username'
+              onChange={e => handleAccount(e)}
             />
           </div>
           <div className={styles.input_container}>
@@ -58,7 +60,8 @@ export default function CreateAccount() {
             <input
               className={styles.input}
               type='password'
-              onChange={e => handleFirstPassword(e.target.value)}
+              name='password1'
+              onChange={e => handleAccount(e)}
             />
           </div>
           <div className={styles.input_container}>
@@ -66,7 +69,8 @@ export default function CreateAccount() {
             <input
               className={styles.input}
               type='password'
-              onChange={e => handleSecondPassword(e.target.value)}
+              name='password2'
+              onChange={e => handleAccount(e)}
             />
           </div>
           <button className={styles.button}>Create Account</button>
