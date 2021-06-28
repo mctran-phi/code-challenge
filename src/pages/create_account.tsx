@@ -6,15 +6,19 @@ import wealthfront from '../images/wealthfront.svg';
 
 interface Account {
   username: string,
-  password1: string,
-  password2: string
+  password: string,
+  name?: string
+};
+
+interface Event {
+  name: string,
+  value: string
 };
 
 export default function CreateAccount() {
   const [account, setAccount] = useState<Account>({
     username: '',
-    password1: '',
-    password2: ''
+    password: ''
   });
 
   async function handleSubmit(evt: FormEvent) {
@@ -28,7 +32,7 @@ export default function CreateAccount() {
   };
 
   function handleAccount(e: SyntheticEvent) {
-    const { name, value } = e.target;
+    const { name, value }: Event = e.target as HTMLInputElement;
     setAccount({...account, name: value});
   };
 
@@ -60,16 +64,7 @@ export default function CreateAccount() {
             <input
               className={styles.input}
               type='password'
-              name='password1'
-              onChange={e => handleAccount(e)}
-            />
-          </div>
-          <div className={styles.input_container}>
-            <label className={styles.label}>Re-enter password</label>
-            <input
-              className={styles.input}
-              type='password'
-              name='password2'
+              name='password'
               onChange={e => handleAccount(e)}
             />
           </div>
