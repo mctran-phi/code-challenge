@@ -8,9 +8,63 @@
 }
 
 .form {
-  width: 350px;
+  width: 400px;
   box-shadow: 0 2px 14px rgba(0, 0, 0, 0.15);
   padding: 16px;
   border-radius: 16px;
   background: #fff;
+  font-family: 'Roboto', sans-serif;
+}
+
+.image {
+  margin-left: auto;
+  margin-right: auto;
+  width: 45px;
+  height: 45px;
+}
+
+.header {
+  text-align: center;
+  font-size: 32px;
+}
+
+.input_container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.input {
+  border: none;
+  border-bottom: 1px solid rgb(200, 200, 200);
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding: 5px;
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid black;
+  }
+}
+
+.label {
+  color: rgb(75, 75, 75);
+  font-size: 14px;
+}
+
+
+.button {
+  background-color: rgb(25, 25, 175, 0.8);
+  color: white;
+  border: transparent;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 10px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: 14px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
