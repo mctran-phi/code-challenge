@@ -30,7 +30,7 @@
       "<rootDir>"
     ],
     "moduleNameMapper": {
-      "^.+\\.scss$": "babel-jest"
+      "^.+\\.(scss|svg)$": "babel-jest"
     },
     "testEnvironment": "jsdom"
   }
