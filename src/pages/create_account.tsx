@@ -5,29 +5,34 @@ import Image from 'next/image';
 import wealthfront from '../images/wealthfront.svg';
 
 interface Account {
-  username: string,
-  password: string,
+  username: string;
+  password1: string;
+  password2: string;
 };
 
 interface Event {
-  name: string,
-  value: string
+  name: string;
+  value: string;
 };
 
 interface Error {
-  error: boolean,
-  errorMessage: string
+  result: boolean;
+  errorMessage: string;
 };
 
 export default function CreateAccount() {
   const [account, setAccount] = useState<Account>({
     username: '',
-    password: ''
+    password1: '',
+    password2: ''
   });
   const [error, setError] = useState<Error>({
-    error: false,
+    result: true,
     errorMessage: ''
   });
+  const [created, setCreated] = useState(false);
+  const [userReq, setUserReq] = useState(false);
+  const [passReq, setPassReq] = useState(false);
 
   async function handleSubmit(evt: FormEvent) {
     evt.preventDefault();
@@ -38,15 +43,27 @@ export default function CreateAccount() {
 
     const { result, errors } = await response.json();
     setError({
-      error: result,
+      result: result,
       errorMessage: errors.error
     });
+    setCreated(result);
   };
 
   function handleAccount(e: SyntheticEvent) {
     const { name, value }: Event = e.target as HTMLInputElement;
     setAccount({...account, [name]: value});
   };
+
+  function toggleUserReq() {
+    setUserReq(bool => !bool);
+  };
+
+  function togglePassReq() {
+    setPassReq(bool => !bool);
+  };
+
+  var displayUser = userReq ? {visibility: 'visible'} : {visibility: 'hidden'};
+  var displayPass = passReq ? {visibility: 'visible'} : {visibility: 'hidden'};
 
   return (
     <>
@@ -62,27 +79,59 @@ export default function CreateAccount() {
             <Image src={wealthfront} />
           </div>
           <h1 className={styles.header}>Create New Account</h1>
+          {!error.result && <div className={styles.error}>{error.errorMessage}</div>}
           <div className={styles.input_container}>
             <label className={styles.label}>Username</label>
             <input
               className={styles.input}
               type='input'
               name='username'
+              onFocus={e => toggleUserReq()}
+              onBlur={e => toggleUserReq()}
               onChange={e => handleAccount(e)}
-            />
+            required/>
           </div>
           <div className={styles.input_container}>
             <label className={styles.label}>Password</label>
             <input
               className={styles.input}
               type='password'
-              name='password'
+              name='password1'
+              onFocus={e => togglePassReq()}
+              onBlur={e => togglePassReq()}
               onChange={e => handleAccount(e)}
-            />
+            required/>
           </div>
-          <button className={styles.button}>Create Account</button>
+          <div className={styles.input_container}>
+            <label className={styles.label}>Re-enter Password</label>
+            <input
+              className={styles.input}
+              type='password'
+              name='password2'
+              onFocus={e => togglePassReq()}
+              onBlur={e => togglePassReq()}
+              onChange={e => handleAccount(e)}
+            required/>
+          </div>
+          {!created && <button className={styles.button}>Create Account</button>}
+          {created && <div className={styles.created}>Your account as been created!</div> }
         </form>
+        <div className={styles.requirements}>
+          <div style={displayUser} className={styles.username}>
+            <ul className={styles.ul}>
+              <li className={styles.li}>Length must be between 10 and 50</li>
+              <li className={styles.li}>Must contain only numbers and letters</li>
+            </ul>
+          </div>
+          <div style={displayPass} className={styles.password}>
+            <ul className={styles.ul}>
+              <li className={styles.li}>Length must be between 20 and 50</li>
+              <li className={styles.li}>Must contain only numbers, letters, and symbols (!,@,#,$,%)</li>
+              <li className={styles.li}>Must contain at least one symbol (!,@,#,$,%), 1 letter, and 1 number</li>
+            </ul>
+          </div>
+        </div>
       </article>
     </>
   );
-}
+};

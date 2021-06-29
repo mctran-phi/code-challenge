@@ -14,6 +14,7 @@
   border-radius: 16px;
   background: #fff;
   font-family: 'Roboto', sans-serif;
+  position: absolute;
 }
 
 .image {
@@ -71,4 +72,40 @@
   &:active {
     transform: translateY(4px);
   }
+}
+
+.error {
+  color: rgb(190, 30, 30);
+  text-align: center;
+  font-size: 13px;
+}
+
+.created {
+  color: rgb(45, 200, 45);
+  text-align: center;
+  margin-top: 10px;
+}
+
+.ul {
+  width: 220px;
+  height: auto;
+  font-size: 13px;
+  right: 10px;
+}
+
+.requirements {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-top: 75px;
+  margin-left: auto;
+  margin-right: 150px;
+}
+
+.password, .username {
+  display: block;
+  background-color: rgb(200, 200, 200, 0.6);
+  border: transparent;
+  border-radius: 10px;
+  margin: 5px;
 }
