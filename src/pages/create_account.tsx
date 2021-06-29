@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { FormEvent, useState, SyntheticEvent, CSSProperties } from 'react';
+import { FormEvent, useState, useEffect, SyntheticEvent, CSSProperties } from 'react';
 import styles from 'src/styles/create_account.module.scss';
 import Image from 'next/image';
 import wealthfront from '../images/wealthfront.svg';
@@ -33,6 +33,21 @@ export default function CreateAccount() {
   const [created, setCreated] = useState(false);
   const [userReq, setUserReq] = useState(false);
   const [passReq, setPassReq] = useState(false);
+  const [exposed, setExposed] = useState(false);
+
+  useEffect(() => {
+    async function handleExposed() {
+      console.log(account.password1);
+      const response = await fetch('/api/password_exposed', {
+        method: 'POST',
+        body: JSON.stringify({password: account.password1})
+      });
+
+      const { result } = await response.json();
+      setExposed(result);
+    }
+    handleExposed();
+  }, [account.password1]);
 
   async function handleSubmit(evt: FormEvent) {
     evt.preventDefault();
@@ -79,6 +94,7 @@ export default function CreateAccount() {
             <Image src={wealthfront} />
           </div>
           <h1 className={styles.header}>Create New Account</h1>
+          {exposed && <div className={styles.error}>Warning: Your password has been exposed!</div>}
           {!error.result && <div className={styles.error}>{error.errorMessage}</div>}
           <div className={styles.input_container}>
             <label className={styles.label}>Username</label>
