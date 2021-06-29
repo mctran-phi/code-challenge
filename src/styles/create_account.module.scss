@@ -14,7 +14,7 @@
   border-radius: 16px;
   background: #fff;
   font-family: 'Roboto', sans-serif;
-  position: absolute;
+  position: static;
 }
 
 .image {
@@ -96,10 +96,7 @@
 .requirements {
   display: flex;
   flex-direction: column;
-  position: relative;
   margin-top: 75px;
-  margin-left: auto;
-  margin-right: 150px;
 }
 
 .password, .username {
