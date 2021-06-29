@@ -16,9 +16,9 @@ describe('CreateAccount', () => {
     render(<CreateAccount />);
     fetchMock.mockResponseOnce(JSON.stringify({}));
     userEvent.click(screen.getByText('Create Account'));
-    expect(fetchMock).toBeCalledTimes(1);
+    expect(fetchMock).toBeCalledTimes(2);
     expect(fetchMock).toBeCalledWith('/api/create_new_account', {
-      body: '{}',
+      body: "{\"username\":\"\",\"password1\":\"\",\"password2\":\"\"}",
       method: 'POST',
     });
   });

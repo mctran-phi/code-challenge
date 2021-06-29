@@ -37,7 +37,6 @@ export default function CreateAccount() {
 
   useEffect(() => {
     async function handleExposed() {
-      console.log(account.password1);
       const response = await fetch('/api/password_exposed', {
         method: 'POST',
         body: JSON.stringify({password: account.password1})
@@ -89,7 +88,7 @@ export default function CreateAccount() {
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap" rel="stylesheet" />
       </Head>
       <article className={styles.article}>
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={e => handleSubmit(e)}>
           <div className={styles.image}>
             <Image src={wealthfront} />
           </div>
