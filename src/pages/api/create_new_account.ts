@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import fetch from 'node-fetch';
 
 interface CreateNewAccountParameters {
   username: string;
@@ -14,26 +15,12 @@ interface BooleanResult {
 export default async function createNewAccount(req: NextApiRequest, res: NextApiResponse<BooleanResult>) {
   const { username, password1, password2 }: CreateNewAccountParameters = JSON.parse(req.body);
 
-  const response = await fetch('http://localhost:3000/api/password_exposed', {
-    method: 'POST',
-    body: JSON.stringify({password: password1}),
-  });
-  const { result } = await response.json();
-  if (result) {
-    return res.status(200).json({
-      result: false,
-      errors: {
-        error: 'Warning: Password has been exposed!'
-      }
-    });
-  }
-
   var userLength = /.{10,50}/;
   var validUser = /^([a-zA-z0-9]){10,50}$/;
   var passLength = /.{20,50}/;
   var atLeastOneLetter = /[a-zA-Z]+/;
   var atLeastOneDigit = /\d/;
-  var atLeastOneSymbol = /[!@#$%]+/
+  var atLeastOneSymbol = /[!@#$%]+/;
   var validPass = /^([a-zA-Z0-9!@#$%]){20,50}$/;
 
   if (!userLength.test(username)) {
@@ -64,7 +51,8 @@ export default async function createNewAccount(req: NextApiRequest, res: NextApi
         error: 'Password must be between 20 to 50 characters!'
       }
     });
-  } else if (!atLeastOneLetter.test(password1) && !atLeastOneDigit.test(password1) && !atLeastOneSymbol.test(password1)) {
+  } else if (!atLeastOneLetter.test(password1) || !atLeastOneDigit.test(password1) || !atLeastOneSymbol.test(password1)) {
+    console.log(password1);
     res.status(200).json({
       result: false,
       errors: {
