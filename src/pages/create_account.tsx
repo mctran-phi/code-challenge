@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { FormEvent, useState, SyntheticEvent } from 'react';
+import { FormEvent, useState, SyntheticEvent, CSSProperties } from 'react';
 import styles from 'src/styles/create_account.module.scss';
 import Image from 'next/image';
 import wealthfront from '../images/wealthfront.svg';
@@ -62,8 +62,8 @@ export default function CreateAccount() {
     setPassReq(bool => !bool);
   };
 
-  var displayUser = userReq ? {visibility: 'visible'} : {visibility: 'hidden'};
-  var displayPass = passReq ? {visibility: 'visible'} : {visibility: 'hidden'};
+  var displayUser: CSSProperties = userReq ? {visibility: 'visible'} : {visibility: 'hidden'};
+  var displayPass: CSSProperties = passReq ? {visibility: 'visible'} : {visibility: 'hidden'};
 
   return (
     <>
