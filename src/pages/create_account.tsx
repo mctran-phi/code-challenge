@@ -7,7 +7,6 @@ import wealthfront from '../images/wealthfront.svg';
 interface Account {
   username: string,
   password: string,
-  name?: string
 };
 
 interface Event {
@@ -15,10 +14,19 @@ interface Event {
   value: string
 };
 
+interface Error {
+  error: boolean,
+  errorMessage: string
+};
+
 export default function CreateAccount() {
   const [account, setAccount] = useState<Account>({
     username: '',
     password: ''
+  });
+  const [error, setError] = useState<Error>({
+    error: false,
+    errorMessage: ''
   });
 
   async function handleSubmit(evt: FormEvent) {
@@ -28,12 +36,16 @@ export default function CreateAccount() {
       body: JSON.stringify(account),
     });
 
-    console.log(await response.json());
+    const { result, errors } = await response.json();
+    setError({
+      error: result,
+      errorMessage: errors.error
+    });
   };
 
   function handleAccount(e: SyntheticEvent) {
     const { name, value }: Event = e.target as HTMLInputElement;
-    setAccount({...account, name: value});
+    setAccount({...account, [name]: value});
   };
 
   return (
@@ -41,7 +53,7 @@ export default function CreateAccount() {
       <Head>
         <title>Create Account</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap" rel="stylesheet" />
       </Head>
       <article className={styles.article}>
