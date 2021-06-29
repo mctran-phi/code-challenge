@@ -31,7 +31,9 @@ export default async function createNewAccount(req: NextApiRequest, res: NextApi
   var userLength = /.{10,50}/;
   var validUser = /^([a-zA-z0-9]){10,50}$/;
   var passLength = /.{20,50}/;
-  var passAtLeastOne = /([a-zA-Z])+([0-9])+([!@#$%])+/
+  var atLeastOneLetter = /[a-zA-Z]+/;
+  var atLeastOneDigit = /\d/;
+  var atLeastOneSymbol = /[!@#$%]+/
   var validPass = /^([a-zA-Z0-9!@#$%]){20,50}$/;
 
   if (!userLength.test(username)) {
@@ -62,7 +64,7 @@ export default async function createNewAccount(req: NextApiRequest, res: NextApi
         error: 'Password must be between 20 to 50 characters!'
       }
     });
-  } else if (!passAtLeastOne.test(password1)) {
+  } else if (!atLeastOneLetter.test(password1) && !atLeastOneDigit.test(password1) && !atLeastOneSymbol.test(password1)) {
     res.status(200).json({
       result: false,
       errors: {
